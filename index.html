@@ -861,6 +861,8 @@ screen.classList.add("hidden");
 
 function continueIntro() {
 
+  track("continued");
+  
 showScreen(
 envelopeScreen
 );
@@ -873,6 +875,8 @@ envelopeScreen
 ===================================================== */
 
 function openEnvelope() {
+
+  track("opened_envelope");
 
 const envelope =
 document.getElementById("envelope");
@@ -904,6 +908,8 @@ invitation
 function chooseNo() {
 
 noClicks++;
+
+track("no_clicked_" + noClicks);
 
 
 if (noClicks === 1) {
@@ -942,6 +948,8 @@ noBtn.style.pointerEvents =
 
 function chooseYes() {
 
+  track("yes_clicked");
+
 showScreen(
 confirmation
 );
@@ -954,6 +962,8 @@ confirmation
 ===================================================== */
 
 function finalConfirm() {
+
+  track("accepted");
 
 showScreen(
 finalScreen
