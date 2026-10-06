@@ -806,6 +806,23 @@ introText.textContent =
 guestName +
 ", тебя ждёт приглашение.";
 
+  const TRACKING_URL =
+"https://script.google.com/macros/s/AKfycbwxW7qoSyEbxX7oUb_yntAJPRsJWDTcZq54ioVtwXQcg9YV0CIgxfmNoIYmcKr2o_e8jg/exec";
+
+function track(eventName) {
+const url =
+TRACKING_URL +
+"?guest=" +
+encodeURIComponent(guestName) +
+"&event=" +
+encodeURIComponent(eventName);
+
+fetch(url, {
+mode: "no-cors"
+}).catch(() => {});
+}
+
+track("opened");
 
 /* =====================================================
 ПЕРЕКЛЮЧЕНИЕ ЭКРАНОВ
