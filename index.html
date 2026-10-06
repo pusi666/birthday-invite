@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="надя" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Приглашение</title>
 
 <style>
@@ -145,11 +145,6 @@ z-index: 4;
 .seal {
 position: absolute;
 
-/*
-САМОЕ ВАЖНОЕ:
-центрируем печать относительно конверта
-*/
-
 left: 50%;
 top: 50%;
 
@@ -196,11 +191,6 @@ border: 1px solid rgba(255,255,255,.25);
 
 border-radius: 50%;
 }
-
-/*
-При открытии печать немного увеличивается
-и исчезает, сохраняя правильный центр.
-*/
 
 .seal.opened {
 transform:
@@ -521,9 +511,7 @@ opacity: 0;
 </style>
 </head>
 
-
 <body>
-
 
 <!-- =========================
 ЭКРАН 1
@@ -621,7 +609,7 @@ class="screen hidden"
 <div>
 <strong>Время:</strong>
 <span id="timeText">
-19:00
+16:00
 </span>
 </div>
 
@@ -720,13 +708,9 @@ class="screen hidden"
 
 /* =====================================================
 НАСТРОЙКИ ПРИГЛАШЕНИЯ
-
-МЕНЯТЬ НУЖНО ТОЛЬКО ЭТОТ БЛОК
 ===================================================== */
 
 const INVITATION = {
-
-name: "Бабушка",
 
 date: "10 октября",
 
@@ -735,6 +719,29 @@ time: "16:00",
 place: "Московская область, городской округ Красногорск, посёлок Архангельское, СНТ Архангельское-2, 26"
 
 };
+
+
+/* =====================================================
+ПОЛУЧАЕМ ИМЯ ИЗ ССЫЛКИ
+
+Пример:
+
+...?guest=Бабушка
+
+...?guest=Саша
+
+...?guest=Андрей
+
+===================================================== */
+
+const params =
+new URLSearchParams(
+window.location.search
+);
+
+const guestName =
+params.get("guest") ||
+"Гость";
 
 
 /* =====================================================
@@ -784,7 +791,7 @@ document.getElementById("noBtn");
 ===================================================== */
 
 inviteName.textContent =
-INVITATION.name;
+guestName;
 
 dateText.textContent =
 INVITATION.date;
@@ -796,7 +803,7 @@ placeText.textContent =
 INVITATION.place;
 
 introText.textContent =
-INVITATION.name +
+guestName +
 ", тебя ждёт приглашение.";
 
 
