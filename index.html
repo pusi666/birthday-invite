@@ -463,6 +463,52 @@ color: #ccc;
 line-height: 1.6;
 }
 
+  /* ФОТО НА ВЕСЬ ЭКРАН */
+
+.final-photo {
+
+position: absolute;
+
+inset: 0;
+
+width: 100%;
+
+height: 100%;
+
+object-fit: cover;
+
+}
+
+.final-overlay {
+
+position: absolute;
+
+inset: 0;
+
+background: rgba(0, 0, 0, 0.42);
+
+z-index: 1;
+
+}
+
+#final {
+
+position: relative;
+
+overflow: hidden;
+
+}
+
+#final .final-box {
+
+position: relative;
+
+z-index: 2;
+
+color: white;
+
+}
+
 @keyframes finalAppear {
 
 from {
@@ -688,18 +734,27 @@ id="final"
 class="screen hidden"
 >
 
+<img
+src="final-photo.jpg"
+class="final-photo"
+>
+
+<div class="final-overlay"></div>
+
 <div class="final-box">
 
 <h2>
-Тогда договорились.
+Тогда договорились!
 </h2>
 
 <p>
 Буду ждать тебя<br>
-со всем нетерпением.
+с нетерпением.
 </p>
 
 </div>
+
+</section>
 
 </section>
 
