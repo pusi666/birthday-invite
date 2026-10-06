@@ -487,13 +487,17 @@ z-index: 1;
 }
 
 #final {
-
 position: relative;
-
 overflow: hidden;
-
+background:
+radial-gradient(
+circle at center,
+#7a2438 0%,
+#541322 45%,
+#2b0812 100%
+);
 }
-
+  
 #final .final-box {
 
 position: relative;
@@ -728,13 +732,6 @@ onclick="finalConfirm()"
 id="final"
 class="screen hidden"
 >
-
-<img
-src="fon.webp"
-class="final-photo"
->
-
-<div class="final-overlay"></div>
 
 <div class="final-box">
 
