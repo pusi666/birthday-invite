@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="надя" content="width=device-width, initial-scale=1.0">
+<title>Приглашение</title>
+
+<style>
+* {
+box-sizing: border-box;
+margin: 0;
+padding: 0;
+}
+
+body {
+font-family: Georgia, "Times New Roman", serif;
+overflow: hidden;
+background: #000;
+}
+
+button {
+font-family: inherit;
+cursor: pointer;
+}
+
+.screen {
+position: fixed;
+inset: 0;
+display: flex;
+align-items: center;
+justify-content: center;
+transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.hidden {
+opacity: 0;
+pointer-events: none;
+transform: scale(1.04);
+}
+
+/* =========================
+ЭКРАН 1
+========================= */
+
+#intro {
+background: #000;
+color: white;
+text-align: center;
+flex-direction: column;
+gap: 35px;
+padding: 25px;
+}
+
+#intro h1 {
+font-size: clamp(28px, 7vw, 52px);
+font-weight: 400;
+letter-spacing: 1px;
+}
+
+#intro button {
+border: 1px solid rgba(255,255,255,.7);
+background: transparent;
+color: white;
+padding: 14px 34px;
+border-radius: 40px;
+font-size: 17px;
+transition: .3s;
+}
+
+#intro button:hover {
+background: white;
+color: black;
+}
+
+/* =========================
+ЭКРАН 2 — КОНВЕРТ
+========================= */
+
+#envelopeScreen {
+background: #eeeae4;
+flex-direction: column;
+}
+
+.envelope-wrapper {
+position: relative;
+width: min(78vw, 380px);
+height: min(50vw, 240px);
+}
+
+.envelope {
+position: absolute;
+inset: 0;
+background: #f8f5ef;
+border: 1px solid #d7d0c6;
+box-shadow: 0 25px 70px rgba(0,0,0,.18);
+overflow: hidden;
+}
+
+.envelope::before {
+content: "";
+position: absolute;
+inset: 0;
+
+background:
+linear-gradient(
+145deg,
+transparent 49.5%,
+#ddd5ca 50%,
+transparent 50.5%
+),
+linear-gradient(
+215deg,
+transparent 49.5%,
+#ddd5ca 50%,
+transparent 50.5%
+);
+}
+
+.envelope-flap {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 70%;
+
+background: #eee9e1;
+
+clip-path: polygon(
+0 0,
+100% 0,
+50% 72%
+);
+
+transform-origin: top center;
+
+transition: transform 1s ease;
+
+z-index: 4;
+}
+
+/* =========================
+ПЕЧАТЬ
+========================= */
+
+.seal {
+position: absolute;
+
+/*
+САМОЕ ВАЖНОЕ:
+центрируем печать относительно конверта
+*/
+
+left: 50%;
+top: 50%;
+
+transform:
+translate(-50%, -50%);
+
+z-index: 10;
+
+width: 82px;
+height: 82px;
+
+border-radius: 50%;
+
+background: #9d171c;
+color: white;
+
+display: flex;
+align-items: center;
+justify-content: center;
+
+text-align: center;
+
+padding: 12px;
+
+font-size: 13px;
+line-height: 1.15;
+
+box-shadow:
+0 5px 15px rgba(0,0,0,.25),
+inset 0 0 0 3px rgba(255,255,255,.12);
+
+transition:
+transform .7s ease,
+opacity .7s ease;
+}
+
+.seal::after {
+content: "";
+
+position: absolute;
+inset: 6px;
+
+border: 1px solid rgba(255,255,255,.25);
+
+border-radius: 50%;
+}
+
+/*
+При открытии печать немного увеличивается
+и исчезает, сохраняя правильный центр.
+*/
+
+.seal.opened {
+transform:
+translate(-50%, -50%)
+scale(1.4)
+rotate(20deg);
+
+opacity: 0;
+}
+
+.envelope.opened .envelope-flap {
+transform: rotateX(180deg);
+}
+
+.letter {
+position: absolute;
+
+z-index: 3;
+
+width: 82%;
+height: 82%;
+
+left: 9%;
+top: 15%;
+
+background: white;
+
+transition: transform 1.2s ease;
+
+box-shadow: 0 5px 15px rgba(0,0,0,.12);
+}
+
+.envelope.opened .letter {
+transform: translateY(-70%);
+}
+
+.tap-hint {
+position: absolute;
+
+bottom: -55px;
+
+color: #555;
+
+font-family: Arial, sans-serif;
+
+font-size: 14px;
+}
+
+/* =========================
+ЭКРАН 3 — ПРИГЛАШЕНИЕ
+========================= */
+
+#invitation {
+background:
+radial-gradient(
+circle at 20% 20%,
+rgba(160,20,30,.08),
+transparent 30%
+),
+radial-gradient(
+circle at 80% 70%,
+rgba(160,20,30,.08),
+transparent 30%
+),
+#f7f3ec;
+
+color: #1d1a18;
+
+padding: 25px;
+
+overflow-y: auto;
+}
+
+.paper {
+width: min(92vw, 650px);
+
+min-height: 75vh;
+
+background: rgba(255,255,255,.85);
+
+padding: clamp(30px, 7vw, 70px);
+
+box-shadow:
+0 25px 80px rgba(0,0,0,.12);
+
+text-align: center;
+
+display: flex;
+
+flex-direction: column;
+
+justify-content: center;
+
+gap: 24px;
+
+border:
+1px solid rgba(0,0,0,.06);
+}
+
+.small-title {
+font-family: Arial, sans-serif;
+
+text-transform: uppercase;
+
+letter-spacing: 4px;
+
+font-size: 11px;
+
+color: #777;
+}
+
+.paper h2 {
+font-size: clamp(30px, 8vw, 55px);
+
+font-weight: 400;
+
+line-height: 1.05;
+}
+
+.paper p {
+font-size: clamp(17px, 4vw, 21px);
+
+line-height: 1.6;
+}
+
+.details {
+margin: 5px auto;
+
+display: grid;
+
+gap: 9px;
+
+font-family: Arial, sans-serif;
+
+font-size: 15px;
+}
+
+.buttons {
+display: flex;
+
+justify-content: center;
+
+align-items: center;
+
+gap: 15px;
+
+margin-top: 10px;
+
+min-height: 70px;
+}
+
+.answer {
+border: none;
+
+border-radius: 50px;
+
+padding: 15px 32px;
+
+font-size: 17px;
+
+transition: all .35s ease;
+}
+
+#yesBtn {
+background: #94181d;
+
+color: white;
+}
+
+#noBtn {
+background: #e5e1dc;
+
+color: #333;
+}
+
+/* =========================
+ПОДТВЕРЖДЕНИЕ
+========================= */
+
+#confirmation {
+background: #f7f3ec;
+
+color: #1d1a18;
+
+text-align: center;
+
+padding: 25px;
+
+flex-direction: column;
+}
+
+.confirmation-box {
+width: min(90vw, 520px);
+
+display: flex;
+
+flex-direction: column;
+
+gap: 25px;
+
+align-items: center;
+}
+
+.confirmation-box h2 {
+font-size: clamp(28px, 7vw, 48px);
+
+font-weight: 400;
+}
+
+.confirmation-box p {
+font-size: 18px;
+
+line-height: 1.5;
+}
+
+.confirm-yes {
+border: none;
+
+background: #94181d;
+
+color: white;
+
+padding: 15px 35px;
+
+border-radius: 50px;
+
+font-size: 17px;
+}
+
+/* =========================
+ФИНАЛ
+========================= */
+
+#final {
+background: #0b0b0b;
+
+color: white;
+
+text-align: center;
+
+padding: 30px;
+
+flex-direction: column;
+}
+
+.final-box {
+display: flex;
+
+flex-direction: column;
+
+gap: 20px;
+
+align-items: center;
+
+animation:
+finalAppear 1.2s ease forwards;
+}
+
+.final-box h2 {
+font-size: clamp(32px, 8vw, 58px);
+
+font-weight: 400;
+}
+
+.final-box p {
+font-size: 18px;
+
+color: #ccc;
+
+line-height: 1.6;
+}
+
+@keyframes finalAppear {
+
+from {
+opacity: 0;
+transform: translateY(25px);
+}
+
+to {
+opacity: 1;
+transform: translateY(0);
+}
+
+}
+
+/* =========================
+КОНФЕТТИ
+========================= */
+
+.confetti {
+position: fixed;
+
+top: -20px;
+
+width: 9px;
+
+height: 15px;
+
+z-index: 100;
+
+animation:
+fall linear forwards;
+}
+
+@keyframes fall {
+
+to {
+transform:
+translateY(110vh)
+rotate(720deg);
+
+opacity: 0;
+}
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =========================
+ЭКРАН 1
+========================= -->
+
+<section
+id="intro"
+class="screen"
+>
+
+<h1 id="introText">
+Тебя ждёт приглашение.
+</h1>
+
+<button onclick="continueIntro()">
+Продолжить
+</button>
+
+</section>
+
+
+<!-- =========================
+ЭКРАН 2
+========================= -->
+
+<section
+id="envelopeScreen"
+class="screen hidden"
+>
+
+<div class="envelope-wrapper">
+
+<div
+class="envelope"
+id="envelope"
+>
+
+<div class="letter"></div>
+
+<div class="envelope-flap"></div>
+
+<div
+class="seal"
+id="seal"
+onclick="openEnvelope()"
+>
+Нажми<br>
+на меня
+</div>
+
+</div>
+
+<div class="tap-hint">
+Здесь начинается приглашение
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+ЭКРАН 3
+========================= -->
+
+<section
+id="invitation"
+class="screen hidden"
+>
+
+<div class="paper">
+
+<div class="small-title">
+Личное приглашение
+</div>
+
+<h2 id="inviteName">
+Имя
+</h2>
+
+<p>
+Я хочу тебя пригласить<br>
+на свой день рождения.
+</p>
+
+<div class="details">
+
+<div>
+<strong>Дата:</strong>
+<span id="dateText">
+10 октября
+</span>
+</div>
+
+<div>
+<strong>Время:</strong>
+<span id="timeText">
+19:00
+</span>
+</div>
+
+<div>
+<strong>Место:</strong>
+<span id="placeText">
+Место будет указано
+</span>
+</div>
+
+</div>
+
+<div class="buttons">
+
+<button
+class="answer"
+id="yesBtn"
+onclick="chooseYes()"
+>
+Да
+</button>
+
+<button
+class="answer"
+id="noBtn"
+onclick="chooseNo()"
+>
+Нет
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+ПОДТВЕРЖДЕНИЕ
+========================= -->
+
+<section
+id="confirmation"
+class="screen hidden"
+>
+
+<div class="confirmation-box">
+
+<h2>
+Ты правда согласился?
+</h2>
+
+<p>
+Я просто хочу убедиться,<br>
+что ты действительно придёшь.
+</p>
+
+<button
+class="confirm-yes"
+onclick="finalConfirm()"
+>
+Да, точно
+</button>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+ФИНАЛ
+========================= -->
+
+<section
+id="final"
+class="screen hidden"
+>
+
+<div class="final-box">
+
+<h2>
+Тогда договорились.
+</h2>
+
+<p>
+Буду ждать тебя<br>
+со всем нетерпением.
+</p>
+
+</div>
+
+</section>
+
+
+<script>
+
+/* =====================================================
+НАСТРОЙКИ ПРИГЛАШЕНИЯ
+
+МЕНЯТЬ НУЖНО ТОЛЬКО ЭТОТ БЛОК
+===================================================== */
+
+const INVITATION = {
+
+name: "Бабушка",
+
+date: "10 октября",
+
+time: "16:00",
+
+place: "Московская область, городской округ Красногорск, посёлок Архангельское, СНТ Архангельское-2, 26"
+
+};
+
+
+/* =====================================================
+ПЕРЕМЕННЫЕ
+===================================================== */
+
+let noClicks = 0;
+
+
+const intro =
+document.getElementById("intro");
+
+const envelopeScreen =
+document.getElementById("envelopeScreen");
+
+const invitation =
+document.getElementById("invitation");
+
+const confirmation =
+document.getElementById("confirmation");
+
+const finalScreen =
+document.getElementById("final");
+
+
+const introText =
+document.getElementById("introText");
+
+const inviteName =
+document.getElementById("inviteName");
+
+const dateText =
+document.getElementById("dateText");
+
+const timeText =
+document.getElementById("timeText");
+
+const placeText =
+document.getElementById("placeText");
+
+const noBtn =
+document.getElementById("noBtn");
+
+
+/* =====================================================
+ПОДСТАНОВКА ДАННЫХ
+===================================================== */
+
+inviteName.textContent =
+INVITATION.name;
+
+dateText.textContent =
+INVITATION.date;
+
+timeText.textContent =
+INVITATION.time;
+
+placeText.textContent =
+INVITATION.place;
+
+introText.textContent =
+INVITATION.name +
+", тебя ждёт приглашение.";
+
+
+/* =====================================================
+ПЕРЕКЛЮЧЕНИЕ ЭКРАНОВ
+===================================================== */
+
+function showScreen(screenToShow) {
+
+const screens = [
+intro,
+envelopeScreen,
+invitation,
+confirmation,
+finalScreen
+];
+
+screens.forEach(screen => {
+
+if (screen === screenToShow) {
+
+screen.classList.remove("hidden");
+
+} else {
+
+screen.classList.add("hidden");
+
+}
+
+});
+
+}
+
+
+/* =====================================================
+ПРОДОЛЖИТЬ
+===================================================== */
+
+function continueIntro() {
+
+showScreen(
+envelopeScreen
+);
+
+}
+
+
+/* =====================================================
+ОТКРЫТИЕ КОНВЕРТА
+===================================================== */
+
+function openEnvelope() {
+
+const envelope =
+document.getElementById("envelope");
+
+const seal =
+document.getElementById("seal");
+
+
+seal.classList.add("opened");
+
+envelope.classList.add("opened");
+
+
+setTimeout(() => {
+
+showScreen(
+invitation
+);
+
+}, 1300);
+
+}
+
+
+/* =====================================================
+КНОПКА НЕТ
+===================================================== */
+
+function chooseNo() {
+
+noClicks++;
+
+
+if (noClicks === 1) {
+
+noBtn.style.transform =
+"scale(.72)";
+
+}
+
+else if (noClicks === 2) {
+
+noBtn.style.transform =
+"scale(.45)";
+
+}
+
+else if (noClicks >= 3) {
+
+noBtn.style.transform =
+"scale(0)";
+
+noBtn.style.opacity =
+"0";
+
+noBtn.style.pointerEvents =
+"none";
+
+}
+
+}
+
+
+/* =====================================================
+КНОПКА ДА
+===================================================== */
+
+function chooseYes() {
+
+showScreen(
+confirmation
+);
+
+}
+
+
+/* =====================================================
+ФИНАЛ
+===================================================== */
+
+function finalConfirm() {
+
+showScreen(
+finalScreen
+);
+
+createConfetti();
+
+}
+
+
+/* =====================================================
+КОНФЕТТИ
+===================================================== */
+
+function createConfetti() {
+
+const pieces = 120;
+
+
+for (
+let i = 0;
+i < pieces;
+i++
+) {
+
+const piece =
+document.createElement("div");
+
+
+piece.classList.add(
+"confetti"
+);
+
+
+piece.style.left =
+Math.random() * 100 +
+"vw";
+
+
+piece.style.animationDuration =
+(2 + Math.random() * 3) +
+"s";
+
+
+piece.style.animationDelay =
+Math.random() * .8 +
+"s";
+
+
+piece.style.transform =
+`rotate(${Math.random() * 360}deg)`;
+
+
+piece.style.backgroundColor =
+[
+"#ffffff",
+"#d4af37",
+"#9d171c",
+"#f3d9a4",
+"#777777"
+][
+Math.floor(
+Math.random() * 5
+)
+];
+
+
+document.body.appendChild(
+piece
+);
+
+
+setTimeout(() => {
+
+piece.remove();
+
+}, 5500);
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
